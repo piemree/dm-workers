@@ -8,12 +8,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
-import { setLoadingState } from "../store/slices/rootSlice";
+import { useRouter } from "next/router";
 
 function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+  return { name, calories, fat, carbs, protein, id: name.trim() };
 }
-
 let rows = [
   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
@@ -24,6 +23,8 @@ let rows = [
 
 export default function CustomerList({ filter }) {
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const filteredRows = rows.filter((r) =>
     r.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -33,39 +34,51 @@ export default function CustomerList({ filter }) {
         key={row.name}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
-        <TableCell component="th" scope="row">
+        <TableCell component="th" scope="row" className="font-semibold">
           {row.name}
         </TableCell>
-        <TableCell>{row.calories}</TableCell>
-        <TableCell>{row.fat}</TableCell>
-        <TableCell>{row.carbs}</TableCell>
-        <TableCell className="w-10" align="left">
+
+        <TableCell className="font-semibold">{row.carbs}</TableCell>
+        <TableCell align="left">
           <Button
-            onClick={handleClick}
-            className="bg-blue-500 text-white px-3 hover:bg-blue-400 "
+            onClick={() => handleClick(row.id)}
+            className="bg-orange-500 text-white px-3 hover:bg-orange-400 m-2 "
           >
-            Görüntüle
+            detay 
+          </Button>
+          <Button
+            onClick={() => handleClick(row.id)}
+            className="bg-green-500 text-white px-3 hover:bg-green-400 m-2"
+          >
+            tahsilat
+          </Button>
+          <Button
+            onClick={() => handleClick(row.id)}
+            className="bg-blue-500 text-white px-3 hover:bg-blue-400 m-2"
+          >
+            satış
           </Button>
         </TableCell>
       </TableRow>
     ));
   };
-  const handleClick = () => {
-    dispatch(setLoadingState(true));
-    setTimeout(() => {
-      dispatch(setLoadingState(false));
-    }, 2000);
+  const handleClick = (customerId) => {
+    console.log(customerId);
+    router.push(customerId);
   };
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer component={Paper} >
+      <Table aria-label="simple table" size="small">
+        <colgroup>
+          <col width="30%" />
+          <col width="10%" />
+          <col width="20%" />
+        </colgroup>
         <TableHead>
           <TableRow>
             <TableCell className="font-semibold ">Firma Adı</TableCell>
-            <TableCell className="font-semibold ">Firma Sahibi</TableCell>
-            <TableCell className="font-semibold ">Son Satış Miktarı</TableCell>
             <TableCell className="font-semibold ">Bakiye</TableCell>
-            <TableCell className="w-10" />
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>

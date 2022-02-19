@@ -46,7 +46,7 @@ export default function Navbar() {
       <AppBar position="static">
         <Toolbar>
           <IconButton
-            className="md:hidden"
+            className="md:hidden "
             size="large"
             edge="start"
             color="inherit"
@@ -68,10 +68,15 @@ export default function Navbar() {
               <Button
                 className="text-white hover:bg-blue-400 min-h-full rounded-none py-5 hidden  md:block"
                 key={index}
+                onClick={() =>router.push(`/${to}`)}
               >
-                <Link href={`/${to}`} className=" text-white">
+                {name}
+                {/* <Link
+                  href={`/${to}`}
+                  className=" text-white block h-full w-full"
+                >
                   {name}
-                </Link>
+                </Link> */}
               </Button>
             ))}
             <div className="m-auto">

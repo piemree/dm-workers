@@ -12,10 +12,12 @@ import Navbar from "./Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { Container } from "@mui/material";
 import { setDrawerState } from "../store/slices/rootSlice";
+import Loading from "./Loading";
 
 const Layout = ({ children }) => {
   const drawerState = useSelector((state) => state.root.drawer);
   const dispatch = useDispatch();
+
   const list = () => (
     <Box role="presentation" onClick={() => dispatch(setDrawerState(false))}>
       <List>
@@ -52,7 +54,8 @@ const Layout = ({ children }) => {
       >
         {list()}
       </Drawer>
-      <Container>{children}</Container>
+      <Container className="py-5">{children}</Container>
+      <Loading />
     </div>
   );
 };
